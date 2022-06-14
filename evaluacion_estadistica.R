@@ -1,7 +1,7 @@
 
 # Pregunta 1 - Cargar y limpiar Dataset  ---------------------------------------
 
-# Cargar librerías
+## Cargar librerías-------------------------------------------------------------
 library(tidyverse)
 library(janitor)
 library(samplingbook)
@@ -9,24 +9,29 @@ library(survey)
 library(sampling)
 library(SamplingUtil)
 
-# Cargar bbdd lluvias.csv
+## Cargar bbdd lluvias.csv -----------------------------------------------------
+
 data <- read.csv("data/lluvia.csv")
 
-# Revisar variables y clase
+## Revisar variables y clase ---------------------------------------------------
+
 glimpse(data)
 # Hay un error con las Ñ de la palabra otoño
 
-# Limpiar la base madre y sacarle las ñ
+## Limpiar la base madre y sacarle las ñ ---------------------------------------
+
 data <- data %>% 
   mutate(Estacion = str_replace_all(Estacion, "<f1>", "n"))
 data <- data %>% 
   mutate(Estacion = str_replace_all(Estacion, "�", "n"))
 
-# Extraer un muestreo aleatorio simple de n = 5000, establecer semilla 2022
+## Extraer un muestreo aleatorio simple de n = 5000, establecer semilla 2022----
+
 set.seed(2022)
 data_1 <- sample_n(data, size = 5000)
 
-#Limpiar nombres con janitor y sacar las ñ con mutate
+## Limpiar nombres con janitor y sacar las ñ con mutate-------------------------
+
 data_1 <- data_1 %>% 
   clean_names()
 data_1 <- data_1 %>% 
@@ -34,7 +39,8 @@ data_1 <- data_1 %>%
 data_1 <- data_1 %>% 
   mutate(estacion = str_replace_all(estacion, "�", "n"))
 
-# Deshabilitar anotaciones científicas
+## Deshabilitar anotaciones científicas-----------------------------------------
+
 options(scipen = 999)
 
 
